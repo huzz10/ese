@@ -1,1 +1,26 @@
 
+# Importing SparkContext
+from pyspark import SparkContext
+
+# Step 1: Initialize Spark Context
+sc = SparkContext("local", "Word Count App")  # "local" runs Spark in standalone mode
+
+# Step 2: Load Data
+lines = sc.textFile("path/to/textfile.txt")  # Replace with your file path
+
+# Step 3: Split lines into words and create word pairs
+words = lines.flatMap(lambda line: line.split())  # Split each line into words
+word_pairs = words.map(lambda word: (word, 1))   # Create (word, 1) pairs
+
+# Step 4: Reduce by Key (Aggregate word counts)
+word_counts = word_pairs.reduceByKey(lambda x, y: x + y)  # Sum counts for each word
+
+# Step 5: Collect the results
+results = word_counts.collect()  # Collect the results from the Spark workers
+
+# Step 6: Display the results
+for word, count in results:
+    print(f"{word}: {count}")
+
+# Step 7: Stop the Spark Context
+sc.stop()
