@@ -1,0 +1,77 @@
+palindrome
+#!/bin/bash
+
+read -p "Enter a string: " str
+rev=$(echo "$str" | rev)
+
+if [ "$str" == "$rev" ]; then
+    echo "The string is a palindrome."
+else
+    echo "The string is not a palindrome."
+fi
+
+arithmetic
+
+#!/bin/bash
+
+echo "Enter two numbers:"
+read -p "First number: " num1
+read -p "Second number: " num2
+
+echo "Choose an operation (+, -, *, /):"
+read operation
+
+case $operation in
+    +) echo "Result: $(($num1 + $num2))" ;;
+    -) echo "Result: $(($num1 - $num2))" ;;
+    \*) echo "Result: $(($num1 * $num2))" ;;
+    /) 
+        if [ $num2 -ne 0 ]; then
+            echo "Result: $(($num1 / $num2))"
+        else
+            echo "Error: Division by zero."
+        fi
+        ;;
+    *) echo "Invalid operation." ;;
+esac
+
+
+number of occurences in a file
+
+#!/bin/bash
+
+read -p "Enter the filename: " filename
+if [ ! -f "$filename" ]; then
+    echo "File does not exist."
+    exit 1
+fi
+
+read -p "Enter the word to count: " word
+count=$(grep -o -i "\b$word\b" "$filename" | wc -l)
+
+echo "The word '$word' occurs $count times in the file."
+
+
+insertion sort
+
+#!/bin/bash
+
+read -p "Enter numbers separated by spaces: " -a array
+
+n=${#array[@]}
+
+for ((i = 1; i < n; i++)); do
+    key=${array[i]}
+    j=$((i - 1))
+    
+    while ((j >= 0 && array[j] > key)); do
+        array[j + 1]=${array[j]}
+        j=$((j - 1))
+    done
+    
+    array[j + 1]=$key
+done
+
+echo "Sorted array: ${array[@]}"
+
+
